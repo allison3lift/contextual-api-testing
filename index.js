@@ -13,19 +13,29 @@ function validUrl(str) {
 
 function callUrl(url) {
     return new Promise((res, rej) => {
-        fetch(url, {headers: {
-            'Accept-Encoding': 'gzigzip, deflate, brp',
-          }})
-          .then(res => res.text())
-          .then(data => res({url: url.toString(), response: data}))
-        .catch((err) => rej({ [url]: err }));
+        fetch(url, {
+            headers: {
+                'Accept-Encoding': 'gzigzip, deflate, brp',
+            }
+        })
+            .then(res => res.text())
+            .then(data => res({ url: url.toString(), response: data }))
+            .catch((err) => rej({ [url]: err }));
     });
 }
 
-function recordResponses(results, ws) {
-    console.log(results);
-    csv.write(results, {headers:true} )
-    .pipe(ws);
+function recordResponses(results) {
+    csv.writeToPath("responses.csv", results, {
+        headers: true,
+        transform: function (row) {
+            return {
+                Url: row.url,
+                Response: row.response,
+            };
+        }
+    }).on("finish", function () {
+        console.log("done!");
+    });
 }
 
 async function makeCalls(urls) {
@@ -34,7 +44,6 @@ async function makeCalls(urls) {
 
     // TODO write to the db url: failed 
     let failedUrls = [...invalidUrls];
-
 
     const promises = urls
         .filter(u => validUrl(u))
@@ -45,33 +54,29 @@ async function makeCalls(urls) {
 
     var responses = [];
 
-    let ws = fs.createWriteStream('results.csv');
-
     await Promise.all(promises)
         .then(v => {
-            recordResponses(v, ws);
+            recordResponses(v);
         });
 
-    ws.end();
     return { responses, failedUrls };
 }
 
 async function processCsv() {
     return new Promise(res => {
         let urls = [];
+        const stream = fs.createReadStream("./urls.csv");
 
-        var stream = fs.createReadStream("./urls.csv");
-        
         csv
-         .parseStream(stream, {headers : false})
-         .on("data", function(data){
-            urls.push(...data);
-         })
-         .on("end", async function(){
-            const results = await makeCalls(urls);
-            // console.log(results);
-            res(results);
-         });
+            .parseStream(stream, { headers: false })
+            .on("data", function (data) {
+                urls.push(...data);
+            })
+            .on("end", async function () {
+                const results = await makeCalls(urls);
+                // console.log(results);
+                res(results);
+            });
     });
 }
 
