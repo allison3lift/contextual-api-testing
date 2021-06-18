@@ -2,6 +2,8 @@ const csv = require('fast-csv');
 const fs = require('fs');
 const fetch = require("node-fetch");
 
+let apiToken;
+
 function validUrl(str) {
     try {
         return true;
@@ -12,8 +14,15 @@ function validUrl(str) {
 }
 
 function callUrl(url) {
+    let properties;
+    if (apiToken !== '')
+        properties = {
+            headers: {
+                'x-api-key': apiToken
+            }
+    }
     return new Promise((res, rej) => {
-        fetch(url)
+        fetch(url, properties)
             .then(res => res.text())
             .then(data => res({ url: url.toString(), response: data }))
             .catch((err) => rej({ [url]: err }));
@@ -22,7 +31,7 @@ function callUrl(url) {
 
 function recordResponses(results) {
     const date = new Date();
-    csv.writeToPath(`responses.csv-${date.toISOString().split(':').join('')}`, results, {
+    csv.writeToPath(`responses-${date.toISOString().split(':').join('')}.csv`, results, {
         headers: true,
         transform: function (row) {
             return {
@@ -75,8 +84,9 @@ async function processCsv(fileName) {
 }
 
 async function executePixelValidation() {
-    const arg = process.argv.splice(1,1)
-    const csvFileName = arg.toString();
+    const arg = process.argv.splice(1,2)
+    const csvFileName = arg[0].toString();
+    apiToken = arg[1] === undefined ? '' : arg[1].toString();
     let results = await processCsv(csvFileName);
     console.log("COMPLETE! Results can be found new CSV file.")
     return results;
