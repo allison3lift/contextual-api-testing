@@ -13,11 +13,7 @@ function validUrl(str) {
 
 function callUrl(url) {
     return new Promise((res, rej) => {
-        fetch(url, {
-            headers: {
-                'Accept-Encoding': 'gzigzip, deflate, brp',
-            }
-        })
+        fetch(url)
             .then(res => res.text())
             .then(data => res({ url: url.toString(), response: data }))
             .catch((err) => rej({ [url]: err }));
@@ -25,7 +21,8 @@ function callUrl(url) {
 }
 
 function recordResponses(results) {
-    csv.writeToPath("responses.csv", results, {
+    const date = new Date();
+    csv.writeToPath(`responses.csv-${date.toISOString().split(':').join('')}`, results, {
         headers: true,
         transform: function (row) {
             return {
@@ -33,8 +30,6 @@ function recordResponses(results) {
                 Response: row.response,
             };
         }
-    }).on("finish", function () {
-        console.log("done!");
     });
 }
 
@@ -62,11 +57,11 @@ async function makeCalls(urls) {
     return { responses, failedUrls };
 }
 
-async function processCsv() {
-    return new Promise(res => {
+async function processCsv(fileName) {
+    return new Promise((res, rej) => {
         let urls = [];
-        const stream = fs.createReadStream("./urls.csv");
-
+        const stream = fs.createReadStream(fileName);
+        stream.on('error', () => rej('File name does not exist. Double check the inputed value and file name are the same.'))
         csv
             .parseStream(stream, { headers: false })
             .on("data", function (data) {
@@ -74,16 +69,16 @@ async function processCsv() {
             })
             .on("end", async function () {
                 const results = await makeCalls(urls);
-                // console.log(results);
                 res(results);
             });
     });
 }
 
 async function executePixelValidation() {
-    let results = await processCsv();
-    console.log("COMPLETE! Results can be found in database.")
-    // console.log(results)
+    const arg = process.argv.splice(1,1)
+    const csvFileName = arg.toString();
+    let results = await processCsv(csvFileName);
+    console.log("COMPLETE! Results can be found new CSV file.")
     return results;
 }
 
