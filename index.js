@@ -1,7 +1,6 @@
 const csv = require('fast-csv');
 const fs = require('fs');
 const fetch = require("node-fetch");
-const convert = require("xml2json");
 
 function validUrl(str) {
     try {
@@ -18,15 +17,15 @@ function callUrl(url) {
             'Accept-Encoding': 'gzigzip, deflate, brp',
           }})
           .then(res => res.text())
-          .then(data => {
-            console.log(data)
-          })
+          .then(data => res({url: url.toString(), response: data}))
         .catch((err) => rej({ [url]: err }));
     });
 }
 
-function recordResponse() {
-    // BUILD OUT
+function recordResponses(results, ws) {
+    console.log(results);
+    csv.write(results, {headers:true} )
+    .pipe(ws);
 }
 
 async function makeCalls(urls) {
@@ -36,7 +35,6 @@ async function makeCalls(urls) {
     // TODO write to the db url: failed 
     let failedUrls = [...invalidUrls];
 
-    var responses = [];
 
     const promises = urls
         .filter(u => validUrl(u))
@@ -45,25 +43,16 @@ async function makeCalls(urls) {
     console.log("Processing... ");
     console.log("This may take time for large datasets.");
 
-    await Promise.all(promises).then(v => {
-        console.log(v[0])
-        // let output = await zlib.inflateSync(compressed);
-        // console.log(output);
+    var responses = [];
 
-        // v.map(response =>
-        //     Object.entries(response).forEach(([key, value, index]) => {
-        //         console.log(response.b)
-        //         // if (value.toString().includes('2') || value.toString().includes('3'))
-        //             // {console.log(value);
-        responses.push(v[0]);
-        //             // recordResponse() <<< BUILD OUT 
-        //         // else {
-        //             // TODO write to the db url: failed 
-        //             // failedUrls.push(key)
-        //         // }
-        //     }))
-    }).catch(err => console.log(err));
+    let ws = fs.createWriteStream('results.csv');
 
+    await Promise.all(promises)
+        .then(v => {
+            recordResponses(v, ws);
+        });
+
+    ws.end();
     return { responses, failedUrls };
 }
 
