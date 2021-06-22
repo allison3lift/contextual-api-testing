@@ -3,7 +3,7 @@ const csv = require('fast-csv');
 const fs = require('fs');
 const fetch = require("node-fetch");
 
-function callPeer39Url(url) {
+async function callPeer39Url(url) {
     return new Promise((res, rej) => {
         fetch(url)
             .then(res => res.text())
@@ -39,27 +39,49 @@ function recordResponses(results) {
     });
 }
 
-async function makeCallsByUrl(urlsObj) {
-    const peer39Promise = callPeer39Url(urlsObj['peer39Url']);
-    const gumGumPromise = callGumGumUrl(urlsObj['gumGumUrl'], )
-    return await Promise.all([peer39Promise, gumGumPromise])
-        .then(resp => ({url: urlsObj['url'], peer39: resp[0], gumgum: resp[1]}));
+function mapPeer39Data(response, categoryData) {
+    const responseArray = response.split('#');
+    const categoryIdsString = responseArray.slice(2, responseArray.length);
+    
+    if (categoryIdsString[0] === undefined)
+        return;
+
+    const categoryIdsArray = categoryIdsString[0].split(';');
+
+    const mappedCategoriesArray = categoryIdsArray.map(categoryId => {
+        const id = categoryId.split(':');
+        const categoryObj = categoryData.filter(c => id[0] === c['Category ID'])[0];
+        const category = categoryObj === undefined ? id[0] : categoryObj['Peer39 Category'];
+        const mappedCategoryWithScore = category + ':'+ id[1];
+        return mappedCategoryWithScore;
+    })
+    const categoryMappedIdsString = mappedCategoriesArray.toString().split(',').join(';');
+    let responseMapped = `${responseArray.slice(0, 2).toString().split(',').join('#')}#${categoryMappedIdsString}#${categoryIdsString[1]}#${categoryIdsString[2]}`;
+    return responseMapped;
 }
 
-async function makeCalls(urls) {
+async function makeCallsByUrl(urlsObj) {
+    const peer39Promise = callPeer39Url(urlsObj['peer39Url']);
+    const categoryData = await processPeer39CategoriesCsv();
+    const gumGumPromise = callGumGumUrl(urlsObj['gumGumUrl'])
+    return await Promise.all([peer39Promise, gumGumPromise])
+        .then(resp => ({url: urlsObj['url'], peer39: mapPeer39Data(resp[0], categoryData), gumgum: resp[1]}));
+}
+
+async function processCalls(urls) {
     const promises = urls
         .map(u => makeCallsByUrl(u));
 
     console.log("Processing... ");
     console.log("This may take time.");
-
+console.log('here')
     await Promise.all(promises)
         .then(response => recordResponses(response))
 
     return;
 }
 
-async function processCsv(fileName) {
+async function processUrlsCsv(fileName) {
     return new Promise((res, rej) => {
         let urls = [];
         const stream = fs.createReadStream(fileName);
@@ -70,9 +92,25 @@ async function processCsv(fileName) {
                 const concatUrls = concatUrl(data);
                 urls.push(concatUrls);
             })
-            .on("end", async function () {
-                const results = await makeCalls(urls);
+            .on("end", async () => {
+                const results = await processCalls(urls);
                 res(results);
+            });
+    });
+}
+
+async function processPeer39CategoriesCsv() {
+    return new Promise((res, rej) => {
+        let categoryData = [];
+        const stream = fs.createReadStream('Sandbox_API_Taxonomy_Partner_Version_2020.csv');
+        stream.on('error', () => rej('File name does not exist.'))
+        csv
+            .parseStream(stream, { headers: true })
+            .on("data", (data) => {
+                categoryData.push(data);
+            })
+            .on("end", async () => {
+                res(categoryData);
             });
     });
 }
@@ -87,7 +125,7 @@ function concatUrl(url) {
 async function executeApis() {
     const arg = process.argv.splice(1,1)
     const csvFileName = arg[0].toString();
-    let results = await processCsv(csvFileName);
+    let results = await processUrlsCsv(csvFileName);
     console.log("COMPLETE! Results can be found new CSV file.")
     return results;
 }
