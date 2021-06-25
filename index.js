@@ -2,6 +2,7 @@ require('dotenv').config();
 const csv = require('fast-csv');
 const fs = require('fs');
 const fetch = require("node-fetch");
+let btoa = require('btoa');
 
 async function callPeer39Url(url) {
     return new Promise((res, rej) => {
@@ -25,6 +26,36 @@ function callGumGumUrl(url) {
     });
 }
 
+async function gteIASAuthToken() {
+    const username = 736418;
+    const password = process.env.IAS_PASSWORD;
+
+    return await fetch('https://auth.adsafeprotected.com/uaa/oauth/token', {
+        method: 'POST',
+        body: 'grant_type=client_credentials',
+        headers: {
+            'Authorization': 'Basic '+btoa(`${username}:${password}`), 
+            'Content-Type': 'application/x-www-form-urlencoded'
+          }, 
+    })
+        .then(res => res.json())
+        .then(res => res.access_token)
+        .catch(err => console.log(err));
+}
+
+async function callIASUrl(url) {
+    let authToken = await gteIASAuthToken();
+    return new Promise((res, rej) => {
+        fetch(url, {
+            headers: {
+                'Authorization': `bearer ${authToken}`
+            }
+        }).then(result => result.json())
+        .then(result => res(result))
+        .catch(err => rej(err));
+    });
+}
+
 function recordResponses(results) {
     const date = new Date();
     csv.writeToPath(`responses-${date.toISOString().split(':').join('')}.csv`, results, {
@@ -32,14 +63,16 @@ function recordResponses(results) {
         transform: (row) => {
             return {
                 url: row.url,
+                peer39Mapped: row.peer39Mapped,
                 peer39: row.peer39,
-                gumgum: row.gumgum
+                // gumgum: row.gumgum,
+                IAS: row.IAS
             };
         }
     });
 }
 
-function mapPeer39Data(response, categoryData) {
+function mapPeer39Data(response, categoryData, url) {
     const responseArray = response.split('#');
     const categoryIdsString = responseArray.slice(2, responseArray.length);
     
@@ -63,9 +96,13 @@ function mapPeer39Data(response, categoryData) {
 async function makeCallsByUrl(urlsObj) {
     const peer39Promise = callPeer39Url(urlsObj['peer39Url']);
     const categoryData = await processPeer39CategoriesCsv();
-    const gumGumPromise = callGumGumUrl(urlsObj['gumGumUrl'])
-    return await Promise.all([peer39Promise, gumGumPromise])
-        .then(resp => ({url: urlsObj['url'], peer39: mapPeer39Data(resp[0], categoryData), gumgum: resp[1]}));
+    // const gumGumPromise = callGumGumUrl(urlsObj['gumGumUrl']);
+    const IASPromise = callIASUrl(urlsObj['IASUrl']);
+    return await Promise.all([peer39Promise, IASPromise])
+        .then(resp => ({url: urlsObj['url'], peer39Mapped: mapPeer39Data(resp[0], categoryData, urlsObj['url']), peer39: resp[0],
+        // gumgum: resp[1]
+        IAS: resp[1]['segment_codes'].toString()
+    }));
 }
 
 async function processCalls(urls) {
@@ -74,9 +111,12 @@ async function processCalls(urls) {
 
     console.log("Processing... ");
     console.log("This may take time.");
-console.log('here')
     await Promise.all(promises)
-        .then(response => recordResponses(response))
+        .then(response => {
+            // console.log(response)
+            recordResponses(response)
+        })
+        .catch(err => console.log(err));
 
     return;
 }
@@ -119,7 +159,8 @@ function concatUrl(url) {
     const encodedUrl = encodeURI(url[0]);
     const gumGumUrl = `https://verity-api.gumgum.com/page/classify?pageUrl=${encodedUrl}`
     const peer39Url = `http://sandbox.api.peer39.net/proxy/targeting?cc=NwH7OeBv/4cSJEcpby8fbowEVshWUO5xu1soA12uA11=&pu=${encodedUrl}&ct=triplelift`;
-    return {url: url[0], gumGumUrl, peer39Url};
+    const IASUrl = `https://api.adsafeprotected.com/db2/client/736418/seg?adsafe_url=${encodedUrl}`
+    return {url: url[0], gumGumUrl, peer39Url, IASUrl};
 }
 
 async function executeApis() {
