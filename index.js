@@ -34,9 +34,9 @@ async function gteIASAuthToken() {
         method: 'POST',
         body: 'grant_type=client_credentials',
         headers: {
-            'Authorization': 'Basic '+btoa(`${username}:${password}`), 
+            'Authorization': 'Basic ' + btoa(`${username}:${password}`),
             'Content-Type': 'application/x-www-form-urlencoded'
-          }, 
+        },
     })
         .then(res => res.json())
         .then(res => res.access_token)
@@ -51,8 +51,8 @@ async function callIASUrl(url) {
                 'Authorization': `bearer ${authToken}`
             }
         }).then(result => result.json())
-        .then(result => res(result))
-        .catch(err => rej(err));
+            .then(result => res(result))
+            .catch(err => rej(err));
     });
 }
 
@@ -75,7 +75,7 @@ function recordResponses(results) {
 function mapPeer39Data(response, categoryData, url) {
     const responseArray = response.split('#');
     const categoryIdsString = responseArray.slice(2, responseArray.length);
-    
+
     if (categoryIdsString[0] === undefined)
         return;
 
@@ -85,7 +85,7 @@ function mapPeer39Data(response, categoryData, url) {
         const id = categoryId.split(':');
         const categoryObj = categoryData.filter(c => id[0] === c['Category ID'])[0];
         const category = categoryObj === undefined ? id[0] : categoryObj['Peer39 Category'];
-        const mappedCategoryWithScore = category + ':'+ id[1];
+        const mappedCategoryWithScore = category + ':' + id[1];
         return mappedCategoryWithScore;
     })
     const categoryMappedIdsString = mappedCategoriesArray.toString().split(',').join(';');
@@ -99,10 +99,11 @@ async function makeCallsByUrl(urlsObj) {
     // const gumGumPromise = callGumGumUrl(urlsObj['gumGumUrl']);
     const IASPromise = callIASUrl(urlsObj['IASUrl']);
     return await Promise.all([peer39Promise, IASPromise])
-        .then(resp => ({url: urlsObj['url'], peer39Mapped: mapPeer39Data(resp[0], categoryData, urlsObj['url']), peer39: resp[0],
-        // gumgum: resp[1]
-        IAS: resp[1]['segment_codes'].toString()
-    }));
+        .then(resp => ({
+            url: urlsObj['url'], peer39Mapped: mapPeer39Data(resp[0], categoryData, urlsObj['url']), peer39: resp[0],
+            // gumgum: resp[1]
+            IAS: resp[1]['segment_codes'].toString()
+        }));
 }
 
 async function processCalls(urls) {
@@ -112,10 +113,7 @@ async function processCalls(urls) {
     console.log("Processing... ");
     console.log("This may take time.");
     await Promise.all(promises)
-        .then(response => {
-            // console.log(response)
-            recordResponses(response)
-        })
+        .then(response => recordResponses(response))
         .catch(err => console.log(err));
 
     return;
@@ -160,11 +158,11 @@ function concatUrl(url) {
     const gumGumUrl = `https://verity-api.gumgum.com/page/classify?pageUrl=${encodedUrl}`
     const peer39Url = `http://sandbox.api.peer39.net/proxy/targeting?cc=NwH7OeBv/4cSJEcpby8fbowEVshWUO5xu1soA12uA11=&pu=${encodedUrl}&ct=triplelift`;
     const IASUrl = `https://api.adsafeprotected.com/db2/client/736418/seg?adsafe_url=${encodedUrl}`
-    return {url: url[0], gumGumUrl, peer39Url, IASUrl};
+    return { url: url[0], gumGumUrl, peer39Url, IASUrl };
 }
 
 async function executeApis() {
-    const arg = process.argv.splice(1,1)
+    const arg = process.argv.splice(1, 1)
     const csvFileName = arg[0].toString();
     let results = await processUrlsCsv(csvFileName);
     console.log("COMPLETE! Results can be found new CSV file.")
