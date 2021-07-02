@@ -1,0 +1,354 @@
+category,id
+Infectious Diseases & Outbreaks - Negative Sentiment,1500195
+Infectious Diseases & Outbreaks,1500078
+Protests & Demonstrations ,1500671
+Protests & Demonstrations - Negative Emotions,1500672
+Cyber Security,1500693
+Natural Disasters,1500691
+Corporate Culture & Labor Relations,1500690
+Sensitive Social Issues,1500692
+Japan Emperor,1500860
+Politics,1500902
+Politics - Negative Content,1500903
+Discrimination Avoidance,1505819
+Pollution,1506278
+Pollution - Negative Sentiment,1506279
+Thai Monarchy,1506447
+Olympics,1506453
+Pop Culture,1506436
+Agriculture & Farming,1506621
+Auto ,1500079
+Baby Products ,1500080
+Baby Proucts - Baby Care,1500096
+Baby Products - Baby Food,1500097
+Consumer Electronics ,1500081
+Consumer Electronics - Gaming Consoles,1500098
+"Consumer Electronics - Laptop, Desktop, PC",1500099
+"Consumer Electronics - Smartphone, Tablet",1500100
+"Consumer Electronics - TV, Smart TV",1500101
+Consumer Electronics - Wearables,1500102
+Consumer Electronics - Appliances,1500103
+Energy,1506280
+Energy - Nuclear Energy,1506282
+Energy - Green Energy,1506283
+Energy - Natural Gas,1506284
+Energy - Oil,1506285
+Energy - Coal,1506286
+Energy - Electricity,1506287
+Entertainment ,1500082
+Entertainment - Music Events,1500104
+Entertainment - Pay-per-view Services,1500105
+Entertainment - Sports Events,1500106
+Entertainment - Theatre Events,1500107
+Fashion ,1500083
+Fasion - Kid's Apparel,1500108
+Fashion - Luxury,1500111
+Fashion - Men's Fashion,1500109
+Fashion - Women's Fashion,1500110
+Finance ,1500084
+"Finance - Bank Account, Business",1500113
+"Finance - Bank Account, Family",1500114
+Finance - Banking,1500112
+Finance - Credit Cards ,1500115
+Finance - Loans & Mortgages,1500116
+Finance - Personal/Family Investing,1500117
+Food and Beverage ,1500085
+Food and Beverage - Beer,1500118
+"Food and Beverage - Biscuits, Cereals",1500119
+Food and Beverage - Gourmet,1500120
+Food and Beverage - Healthy Food,1500121
+Food and Beverage - Ready-to-eat Meals,1500122
+Food and Beverage - Salty Snacks,1500123
+Food and Beverage - Soft Drinks,1500124
+Food and Beverage - Spirits,1500125
+Food and Beverage - Sweet Snacks,1500126
+Food and Beverage - Vegan/Vegetarian,1500127
+Food and Beverage - Wine,1500128
+Gambling ,1500086
+Gambling - Online Betting,1500129
+Gambling - Online Gambling,1500130
+Games and Toys,1500087
+Games and Toys - Children's Toys,1500131
+"Games and Toys - Video Games, Online Games",1500132
+House Care ,1500088
+House Care - Cleaning Appliances,1500133
+House Care - Household Cleaning Products,1500134
+"House Care - Washing Soap, Powder",1500135
+Insurance ,1500089
+"Insurance - Auto, Motor Insurance",1500136
+Insurance - Health,1500137
+Insurance - Home,1500138
+Logistics & Transportation,1506611
+Logistics & Transportation - Air Freight,1506612
+Logistics & Transportation - Cargo Ship,1506613
+Logistics & Transportation - Freight Train,1506614
+Logistics & Transportation - Road Cargo,1506615
+Personal Care ,1500090
+Personal Care - Body Care,1500139
+Personal Care - Hair Loss,1500140
+Personal Care - Makeup,1500141
+Personal Care - Men's Care,1500142
+Personal Care - Plastic Surgery,1500143
+Personal Care - Women's Hair Styling,1500144
+Pharma ,1500091
+Retail ,1500092
+Retail - Arts & Entertainment,1500151
+Retail - Consumer Electronics,1500152
+Retail - Fashion,1500153
+Retail - Food,1500154
+Retail - Home & Garden,1500155
+Retail - Children's Toys & Objects,1500156
+Retail - Office Furniture & Supplies,1500157
+Retail - Pet Food,1500158
+Retail - Pharmacies,1500159
+Retail - Sports Equipment,1500160
+Retail - Supermarkets & Department Stores,1500161
+Career Change,1500162
+Outdoor Activities ,1500166
+Philanthropy,1500163
+Starting a Family,1500164
+Telco ,1500093
+Telco - Business Connectivity,1500167
+Telco - Mobile,1500168
+Travel ,1500094
+Travel - Airline Tickets ,1500169
+Travel - Casino Vacations,1500170
+Travel - Family Holidays,1500171
+Travel - Luxury,1500172
+Travel - Senior,1500173
+Travel - Traveling with Pets,1500174
+Wellness & Healthy Living ,1500095
+Wellness & Healthy Living - Diet,1500176
+Wellness & Healthy Living - Fitness,1500178
+Wellness & Healthy Living - Weight Loss,1500175
+Infectious Diseases & Outbreaks - Negative Sentiment,3005141
+Infectious Diseases & Outbreaks - Positive Sentiment,3005139
+Remote Working,3005140
+Diversity Inclusion,3006302
+Pollution,3006362
+Pollution - Positive Sentiment,3006363
+B2B,3006610
+Agriculture & Farming,3006622
+"Agriculture & Farming - Chicken Owner
+",3006625
+Agriculture & Farming - Duck Owner,3006626
+"Agriculture & Farming - Horse Owner
+",3006627
+"Agriculture & Farming - Livestock
+",3006624
+Agriculture & Farming - Organic Farming,3006623
+Automotive - Auto Parts & Auto Repair,3006608
+Automotive - Auto Racing,3006910
+Automotive - Auto Recalls,3006605
+Automotive - Auto Shows,3006604
+Automotive - City Car,3005007
+Automotive - Commercial Trucks,3006606
+Automotive - Family Car,3005009
+Automotive - Luxury Car,3005022
+Automotive - Sport Car,3005030
+Automotive - SUV,3005032
+Automotive - Used Cars,3006607
+Baby Care,3005036
+Baby Care - Baby Food,3005037
+Consumer Electronics - Apple/iPhone,3005044
+Consumer Electronics - Samsung,3005045
+Consumer Electronics - Gaming Consoles,3005038
+"Consumer Electronics - Laptops, Desktops, PCs",3005039
+"Consumer Electronics - Smartphones, Tablets",3005040
+"Consumer Electronics - TV, Smart TV",3005041
+Consumer Electronics - Wearables,3005042
+Consumer Electronics - Appliances,3005043
+Energy,3006364
+Energy - Oil,3006365
+Energy - Coal,3006366
+Energy - Electricity,3006367
+Energy - Nuclear Energy,3006368
+Energy - Green Energy,3006369
+Energy - Natural Gas,3006370
+Entertainment - Music Events,3005055
+Entertainment - Pay-per-view Services,3005057
+Entertainment - Sports Events,3005061
+Entertainment - Theater Events,3005063
+Entertainment - Horror Movies & Books,3005053
+Entertainment - Romance Movies & Books,3005059
+Entertainment - Action/Adventure Movies & Books,3005046
+Entertainment - Anime/Animation Movies & Books,3005047
+Entertainment - Children/Family Movies & Books,3005048
+Entertainment - Brand Classic Movies & Books,3005049
+Entertainment - Crime Movies & Books,3005051
+Entertainment - Comedy Movies & Books,3005050
+Entertainment - LGBTQ+ Movies & Books,3005054
+Entertainment - Western Movies & Books,3005065
+Entertainment - War/Military Movies & Books,3005064
+Entertainment - Political Movies & Books,3005058
+Entertainment - Sci-fi/Fantasy Movies & Books,3005060
+Entertainment - Crime Movies & Books,3005051
+Entertainment - Brand Sports Movies & Books,3005062
+Entertainment - Documentary,3005052
+Fashion - Kid's Apparel,3005066
+Fashion - Men's Fashion,3005068
+Fashion - Luxury,3005067
+Fashion - Women's Fashion,3005069
+Financial - Bank Account,3005070
+Financial - Business Bank Account,3005071
+Financial - Family Bank Account,3005072
+Financial - Credit Cards,3005073
+Financial - Loans & Mortgages,3005074
+Financial - Personal/Family Investments,3005075
+Food & Beverage - Beer,3005076
+Food & Beverage - Biscuits & Cereal,3005077
+Food & Beverage - Gourmet Food,3005078
+Food & Beverage - Healthy Food,3005079
+Food & Beverage - Ready-to-eat Meal,3005080
+Food & Beverage - Salty Snacks,3005081
+Food & Beverage - Soft Drinks,3005082
+Food & Beverage - Spirits,3005083
+Food & Beverage - Sweet Snacks,3005084
+Food & Beverage - Vegetarian/Vegan,3005085
+Food & Beverage - Wine,3005086
+Gambling - Online Betting,3005087
+Gambling - Online Gambling,3005088
+Games & Toys - Children's Toys,3005089
+Games & Toys - Video & Online Games,3005090
+House Care - Cleaning Appliances,3005091
+House Care - Home Cleaning Products,3005092
+House Care - Washing Soap/Powder,3005093
+Insurance - Car Insurance,3005094
+Insurance - Health Insurance,3005095
+Insurance - Home Insurance,3005096
+Logistics & Transportation,3006616
+Logistics & Transportation - Air Freight,3006617
+Logistics & Transportation - Cargo Ship,3006618
+Logistics & Transportation - Freight Train,3006619
+Logistics & Transportation - Road Cargo,3006620
+Personal Care - Body Care,3005097
+Personal Care - Makeup,3005099
+Personal Care - Men's Care,3005100
+Personal Care - Women's Hairstyling,3005102
+Personal Care - Hair Loss,3005098
+Personal Care - Plastic Surgery,3005101
+Pharma - Children's Flu,3005103
+Pharma - Senior's Flu,3005104
+Pharma - Hay Fever,3005105
+Pharma - Headache & Migraine,3005106
+Pharma - Painkillers,3005107
+Pharma - Vitamins & Supplements,3005108
+Retail - Supermarkets & Department Stores,3005119
+Retail - Food,3005112
+Retail - Fashion,3005111
+Retail - Art & Entertainment,3005109
+Retail - Consumer Electronics,3005110
+Retail - Office Furniture,3005115
+Retail - Pharmaceuticals,3005117
+Retail - Home & Garden,3005113
+Retail - Sports Equipment,3005118
+Retail - Objects for Children,3005114
+Retail - Pet Food,3005116
+Society - Career Change,3005120
+Society - Donors & Volunteers/Philanthrophy/Medical Fund,3005122
+Society - Outdoor Activities,3005121
+Society - Starting a Family,3005123
+Society - Sweet Sixteen,3005124
+Telco - Business Connectivity,3005125
+Telco - Family Voice,3005126
+Telco - Mobile,3005127
+Travel - Adventure,3006599
+Travel - Airline Tickets,3005128
+Travel - Asia,3006597
+Travel - Budget Travel,3005129
+Travel - Casino Vacations,3005130
+Travel - Central & South America,3006595
+Travel - Europe,3006596
+Travel - Family Holidays,3005131
+Travel - Luxury Holidays,3005132
+Travel - North America,3006594
+Travel - Senior Travel,3005133
+Travel - Traveling with Pets,3005134
+Wellness/Healthy Living - Diet,3005135
+Wellness/Healthy Living - Weight Loss,3005138
+Wellness/Healthy Living - Healthy Living,3005137
+Wellness/Healthy Living - Fitness,3005136
+Valentine's Day,3005200
+Easter,3005154
+Hanukkah,3005163
+Super Bowl,3005189
+The Grammys,3005193
+The Oscars,3005195
+Green Monday,3005161
+Consumer Electronics Show,3005150
+Fitness in the New Year,3005157
+Winter Getaway Travel,3005204
+Winter Apparel,3005203
+Winter Sports Equipment,3005205
+Mother's Day,3005169
+Easter,3005154
+Spring Break,3005186
+Spring Fashion,3005187
+Spring Getaway,3005188
+Father's Day,3005155
+French Open,3005159
+UEFA Europa League Final,3005198
+UEFA Champions League Final,3005197
+Memorial Day,3005168
+Tax Day,3005190
+Earth Day,3005153
+Cinco de Mayo,3005148
+Free Comic Book Day,3005158
+Masters Tournament,3005167
+NBA Playoffs,3005173
+NCAA Basketball Playoffs,3005174
+NHL Playoffs,3005177
+MLB Opening Day,3005178
+FIFA Women's World Cup,3005156
+Wimbledon Grand Slam,3005202
+ICC Cricket World Cup,3005164
+The Open Championship,3005194
+The Ashes,3005192
+Independence Day,3005165
+Ramadan,3005181
+Beach Fashion/Swimwear,3005145
+Seaside Vacations,3005183
+Rugby World Cup,3005182
+Premier League Opening Weekend,3005180
+South by Southwest (SXSW),3005185
+Music Festivals (UK),3005170
+Music Festivals (US),3005171
+PGA Championship,3005179
+Tour de France,3005201
+The Vuelta a España,3005196
+Giro d'Italia,3005160
+Back to School,3005143
+Music Festivals (IT),3005172
+Olympics,3006456
+Back to School - Elementary and High School,3005143
+Back to School - College and University,3005144
+US Open,3005199
+NFL Kickoff,3005176
+Halloween,3005162
+The Día de Muertos,3005152
+Thanksgiving,3005191
+Columbus Day,3005149
+Labor Day,3005166
+Black Friday,3005146
+Small Business Saturday,3005184
+Cyber Monday,3005151
+Christmas,3005147
+New York Fashion Week,3005175
+Autumn Fashion,3005142
+Starting a Family,3006632
+Marriage,3006633
+New Career,3006634
+Car Ownership,3006635
+Home Ownership,3006636
+Holiday Shoppers,3006637
+Business Travelers,3006638
+Small Business Owners,3006639
+Self-Employed,3006642
+Car Enthusiasts,3006643
+Sports Enthusiasts,3006644
+Fitness Enthusiasts,3006645
+Music Enthusiasts,3006646
+Tech Enthusiasts,3006647
+Software and IT Professionals,3006819
+Pet Owners,3006893
+Sustainability & Environmentally Conscious,3007008

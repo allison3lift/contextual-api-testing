@@ -66,6 +66,7 @@ function recordResponses(results) {
                 peer39Mapped: row.peer39Mapped,
                 peer39: row.peer39,
                 // gumgum: row.gumgum,
+                IASMapped: row.IASMapped,
                 IAS: row.IAS
             };
         }
@@ -93,16 +94,26 @@ function mapPeer39Data(response, categoryData, url) {
     return responseMapped;
 }
 
+function mapIASData(response, categoryData) {
+    const mappedResponse = response.map(id => {
+        const categoryObj = categoryData.filter(c => id === c['id'])[0];
+        const category = categoryObj === undefined ? id : categoryObj['category'];
+        return category;
+    });
+    return mappedResponse;
+}
+
 async function makeCallsByUrl(urlsObj) {
     const peer39Promise = callPeer39Url(urlsObj['peer39Url']);
     const categoryData = await processPeer39CategoriesCsv();
     // const gumGumPromise = callGumGumUrl(urlsObj['gumGumUrl']);
     const IASPromise = callIASUrl(urlsObj['IASUrl']);
+    const IAScategory = await processIASCategoriesCsv();
     return await Promise.all([peer39Promise, IASPromise])
         .then(resp => ({
-            url: urlsObj['url'], peer39Mapped: mapPeer39Data(resp[0], categoryData, urlsObj['url']), peer39: resp[0],
+            url: urlsObj['url'], peer39Mapped: mapPeer39Data(resp[0], categoryData), peer39: resp[0],
             // gumgum: resp[1]
-            IAS: resp[1]['segment_codes'].toString()
+            IASMapped: mapIASData(resp[1]['segment_ids'], IAScategory), IAS: resp[1]['segment_ids']
         }));
 }
 
@@ -153,11 +164,27 @@ async function processPeer39CategoriesCsv() {
     });
 }
 
+async function processIASCategoriesCsv() {
+    return new Promise((res, rej) => {
+        let categoryData = [];
+        const stream = fs.createReadStream('IAS_KEY.csv');
+        stream.on('error', () => rej('File name does not exist.'))
+        csv
+            .parseStream(stream, { headers: true })
+            .on("data", (data) => {
+                categoryData.push(data);
+            })
+            .on("end", async () => {
+                res(categoryData);
+            });
+    });
+}
+
 function concatUrl(url) {
     const encodedUrl = encodeURI(url[0]);
     const gumGumUrl = `https://verity-api.gumgum.com/page/classify?pageUrl=${encodedUrl}`
     const peer39Url = `http://sandbox.api.peer39.net/proxy/targeting?cc=NwH7OeBv/4cSJEcpby8fbowEVshWUO5xu1soA12uA11=&pu=${encodedUrl}&ct=triplelift`;
-    const IASUrl = `https://api.adsafeprotected.com/db2/client/736418/seg?adsafe_url=${encodedUrl}`
+    const IASUrl = `https://api.adsafeprotected.com/db2/client/736418/segt?adsafe_url=${encodedUrl}`
     return { url: url[0], gumGumUrl, peer39Url, IASUrl };
 }
 
